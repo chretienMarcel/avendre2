@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Accueil</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Hauteur de la page */
+            background: url('https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+        }
+
+        .card {
+            height: 300px; /* Hauteur uniforme pour toutes les cartes */
+            border: none; /* Supprime la bordure */
+            margin: 20px;
+            border-radius: 15px; /* Arrondit les coins */
+            color: white; /* Couleur du texte */
+        }
+
+        .card:nth-child(1) {
+            background: linear-gradient(to bottom,yellow, yellowgreen,green); /* Dégradé vert */
+        }
+
+        .card:nth-child(2) {
+            background: linear-gradient(to bottom,yellow, yellowgreen,green); /* Dégradé vert-jaune */
+        }
+
+        .card:nth-child(3) {
+            background: linear-gradient(to bottom,yellow, yellowgreen,green); /* Dégradé jaune */
+        }
+
+        .card:nth-child(4) {
+            background: linear-gradient(to bottom,yellow, yellowgreen,green); /* Dégradé jaune-orange */
+        }
+
+        .card-body {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centre verticalement le contenu */
+            height: 100%; /* Prend toute la hauteur de la carte */
+        }
+
+        .icon {
+            font-size: 50px; /* Taille agrandie pour les icônes */
+            margin-bottom: 10px; /* Espacement sous l'icône */
+        }
+
+        .hero {
+            text-align: center;
+            margin-top: 20px; /* Remonte le contenu principal */
+            flex-grow: 1; /* Permet de pousser le footer en bas */
+        }
+
+        .hero h1 {
+            color: black;
+            font-size: 3rem; /* Réduit la taille du titre */
+            margin-bottom: 10px; /* Diminue l'espacement sous le titre */
+        }
+
+        .hero p {
+            
+            font-size: 1.2rem; /* Réduit la taille du paragraphe */
+            margin-bottom: 20px; /* Diminue l'espacement sous le paragraphe */
+        }
+
+        .hero .btn {
+            font-size: 1.2rem;
+            padding: 10px 30px;
+        }
+
+        .footer {
+            background-color: white;
+            color: black;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <span class="navbar-brand mb-0 h1">Navbar</span>
+        <div class="ml-auto">
+            <a href="{% url 'users-login' %}" class="btn btn-success text-white">
+                <i class="fas fa-user"></i> Sign In
+            </a>
+            <a href="{% url 'users-sign-up' %}" class="btn btn-light mr-2">
+                Sign Up
+            </a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Bienvenue sur notre plateforme immobilière</h1>
+        <p class="btn btn-success">Trouvez votre prochaine maison ou mettez la vôtre en location</p>
+    </div>
+
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fas fa-home icon"></i>
+                        <h5 class="card-title">Trouver une Maison</h5>
+                        <p class="card-text">Nous vous aidons à trouver la maison de vos rêves.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fas fa-door-open icon"></i>
+                        <h5 class="card-title">Mettre en Location</h5>
+                        <p class="card-text">Mettez votre maison en location facilement et rapidement.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fas fa-shopping-cart icon"></i>
+                        <h5 class="card-title">Acheter une Propriété</h5>
+                        <p class="card-text">Nous vous guidons dans le processus d'achat de votre propriété.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="fas fa-calculator icon"></i>
+                        <h5 class="card-title">Évaluer notre page</h5>
+                        <p class="card-text">interagissez avec nous afin de nous faire part de vos souhaits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="fab fa-whatsapp"></i> +257 72 345 678
+                </div>
+                <div class="col-md-4">
+                    <i class="far fa-envelope"></i> email:ollympe@gmail.com
+                </div>
+                <div class="col-md-4">
+                    &copy; 2024 Tous droits réservés
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

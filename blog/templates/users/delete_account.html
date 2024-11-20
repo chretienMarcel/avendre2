@@ -1,0 +1,55 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Supprimer mon compte</h2>
+    <p class="text-center">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+    <div class="card my-4 shadow-custom">
+        <div class="card-body text-center">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg">Oui, supprimer mon compte</button>
+                <a href="{% url 'users-profile' %}" class="btn btn-secondary btn-lg">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+.shadow-custom {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Ombre foncée */
+    border-radius: 8px; /* Arrondi des coins */
+}
+
+.card {
+    border: 1px solid #e4e6eb; /* Bordure légère pour la carte */
+}
+
+.card-body {
+    padding: 20px; /* Espacement interne */
+}
+
+.btn-lg {
+    margin: 10px; /* Espacement entre les boutons */
+    width: 200px; /* Largeur fixe pour les boutons */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Couleur rouge pour le bouton de suppression */
+    border: none; /* Supprime la bordure par défaut */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Couleur au survol */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Couleur grise pour le bouton d'annulation */
+    border: none; /* Supprime la bordure par défaut */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Couleur au survol */
+}
+</style>

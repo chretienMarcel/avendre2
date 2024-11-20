@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg navbar-light  fixed-top">
+  <div class="container">
+    {% if request.user.is_authenticated %}
+    <a class="navbar-brand text-light" href="{% url 'blog-index' %}"> <i class="fas fa-home"></i> Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <form method="GET" action="{% url 'search' %}" class="mx-3">
+      <div class="input-group">
+        <input type="search" placeholder="Recherchez un lieu" name="item-name" class="form-control" style="width: 400px;"> <!-- Ajustez la largeur ici -->
+        <div class="input-group-append">
+          <button class="btn btn-success" type="submit">Recherche</button>
+        </div>
+      </div>
+    </form>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-light" href="{% url 'users-profile' %}"><i class="fas fa-user"></i> Profile(<strong>{{user.username}}</strong>) <span class="sr-only">(current)</span></a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'poster' %}">  <i class="fas fa-plus-circle"></i> Post</a>
+        </li>
+        <li class="nav-item"></li>
+          <a class="nav-link text-light" href="{% url 'suggestions' %}"><i class="fas fa-lightbulb"></i> Suggestions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#" data-toggle="modal" data-target="#logoutModal">  <i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+        
+      </ul>
+
+      <!-- Barre de recherche au milieu -->
+      
+
+    </div>
+    {% else %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-light" href="{% url 'users-sign-up' %}">SignUp <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'users-login' %}">LOGIN</a>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- Modal de Déconnexion -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Déconnexion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Voulez-vous vraiment vous déconnecter, {{ request.user.username }} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+        <a href="{% url 'accueil' %}" class="btn btn-primary">Oui</a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+   .navbar {
+            background: rgb(100, 28, 6); /* Fond semi-transparent */
+        }
+</style>

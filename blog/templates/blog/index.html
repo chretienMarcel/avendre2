@@ -1,0 +1,143 @@
+{% extends 'partials/base.html' %}
+{% block content %}
+
+
+<!-- Espace pour compenser la barre de recherche fixe -->
+<div style="margin-top: 60px;"> <!-- Ajustez cette valeur pour compenser la hauteur de la navbar et de la barre de recherche -->
+    <div class="container">
+        <div class="row">
+           
+            <div class="col-md-8 offset-md-2">
+                
+                {% if posts %}
+              
+    
+                {% for post in posts %}
+                <div class="card my-3 shadow-custom" style="max-width: 500px; margin: auto;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img class="rounded-circle" src="{{ post.author.profilemodel.image.url }}" alt="photo" style="width: 90px; height: 100px; object-fit: cover;">
+                            <div class="ml-3">
+                                <h5>{{ post.author.first_name }} {{ post.author.last_name }}</h5>
+                                <small class="text-muted">{{ post.date_created }}</small>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="text-justify">la maison se trouve à <strong>{{ post.location }}</strong></p>
+                        <p class="text-justify">elle possède <strong>{{ post.chambres }}</strong> chambres</p>
+                        <p class="text-justify">Contactez moi sur: {{ post.telephone }}</p>
+                        <p class="text-justify">prix de la maison: <strong>{{ post.prix_en_fbu }}</strong> fbu</p>
+                        <p class="text-justify"> {{ post.description }}</p>
+
+                        <div id="imageCarousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel" data-interval="2000">
+                            <div class="carousel-inner">
+                                {% if post.image1 %}
+                                <div class="carousel-item active">
+                                    <img src="{{ post.image1.url }}" class="d-block w-100"  alt="image 1" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}" data-img="{{ post.image1.url }}" >
+                                </div>
+                                {% endif %}
+                                {% if post.image2 %}
+                                <div class="carousel-item">
+                                    <img src="{{ post.image2.url }}" class="d-block w-100" alt="image 2" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}" data-img="{{ post.image2.url }}">
+                                </div>
+                                {% endif %}
+                                {% if post.image3 %}
+                                <div class="carousel-item">
+                                    <img src="{{ post.image3.url }}" class="d-block w-100" alt="image 3" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}" data-img="{{ post.image3.url }}">
+                                </div>
+                                {% endif %}
+                                {% if post.image4 %}
+                                <div class="carousel-item">
+                                    <img src="{{ post.image4.url }}" class="d-block w-100" alt="image 4" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}" data-img="{{ post.image4.url }}">
+                                </div>
+                                {% endif %}
+                                {% if post.image5 %}
+                                <div class="carousel-item">
+                                    <img src="{{ post.image5.url }}" class="d-block w-100" alt="image 5" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}" data-img="{{ post.image5.url }}">
+                                </div>
+                                {% endif %}
+                            </div>
+                            <a class="carousel-control-prev" href="#imageCarousel{{ forloop.counter }}" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Précédent</span>
+                            </a>
+                            <a class="carousel-control-next" href="#imageCarousel{{ forloop.counter }}" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Suivant</span>
+                            </a>
+                        </div>
+                        
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="imageModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ forloop.counter }}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="imageModalLabel{{ forloop.counter }}">Image</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img id="modal-image{{ forloop.counter }}" src="" class="img-fluid" alt="Large Image">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a id="download-link{{ forloop.counter }}" href="#" class="btn btn-primary" download>Télécharger</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Aucune correspondance trouvée pour "{{ query }}".
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block js %}
+<script>
+    // Quand le modal est ouvert, changez l'image et le lien de téléchargement
+    $('[id^=imageModal]').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // L'image qui a été cliquée
+        var imgSrc = button.data('img'); // Récupère l'URL de l'image
+        var modal = $(this);
+        modal.find('img[id^=modal-image]').attr('src', imgSrc); // Change l'image dans le modal
+        modal.find('a[id^=download-link]').attr('href', imgSrc); // Change le lien de téléchargement
+    });
+</script>
+{% endblock %}
+
+<style>
+    .card {
+        border: 1px solid #e4e6eb;
+        border-radius: 8px;
+        background-color: #fff;
+        padding: 15px;
+    }
+    .shadow-custom {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 1); /* Ombre plus prononcée */
+    }
+    .carousel-item img {
+        height: 300px; /* Réduire la hauteur des images */
+       
+        object-fit: cover; /* Assure que les images remplissent leur conteneur sans déformation */
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: green; /* Couleur de fond verte */
+        border-radius: 70%; /* Arrondir les coins si vous le souhaitez */
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        color: green; /* Changez la couleur du texte (flèche) */
+    }
+</style>
+{% endblock %}

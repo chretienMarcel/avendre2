@@ -1,0 +1,74 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Vos Suggestions</h2>
+    <div class="card-shadow-lg my-3">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Soumettre</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Affichage des suggestions des autres utilisateurs -->
+    <h3 class="text-center">Suggestions des Autres Utilisateurs</h3>
+    <div class="row">
+        {% for suggestion in suggestions_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card-shadow-lg my-3">
+                <div class="card-body">
+                    <h5 class="card-title" style="color:rgb(0, 81, 255) ;"><strong>{{ suggestion.user.username }}</strong></h5>
+                    <p class="card-text"><strong>Facilité d'utilisation :</strong> {{ suggestion.facilite_utilisation }}</p>
+                    <p class="card-text"><strong>Appréciations :</strong> {{ suggestion.appreciations }}</p>
+                    <p class="card-text"><strong>Problèmes rencontrés :</strong> {{ suggestion.problèmes }}</p>
+                    <p class="card-text"><strong>Suggestions :</strong> {{ suggestion.suggestions }}</p>
+                    <p class="card-text"><strong>Note :</strong> {{ suggestion.note }}/5</p>
+                    {% if suggestion.user == request.user %}
+                    <form method="post" action="{% url 'delete_suggestion' suggestion.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+     .card-shadow-lg{
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+ 
+}
+
+</style>
+<!-- Modal -->
+{% if success_message %}
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="thankYouModalLabel">Merci !</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ success_message }}
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'blog-index' %}" class="btn btn-secondary">Retour</a>
+               
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Afficher le modal après le chargement de la page
+    var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+    myModal.show();
+</script>
+{% endif %}
+
+{% endblock %}

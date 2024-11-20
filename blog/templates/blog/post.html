@@ -1,0 +1,24 @@
+{% extends 'partials/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row mt-5 pt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card-shadow-lg  my-3 ">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input class="btn btn-success btn-block" type="submit" value="post">
+                    </form>
+                </div>
+            </div>
+ 
+        </div>
+        <style>
+            .card-shadow-lg{
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+           
+          }
+        </style>
+ {% endblock %}
