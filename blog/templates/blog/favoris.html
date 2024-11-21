@@ -1,0 +1,44 @@
+{% extends 'partials/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Mes Favoris</h2>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            {% if favoris %}
+                {% for favoris in favoris %}
+                    <div class="card my-3 shadow-custom" style="max-width: 500px; margin: auto;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img class="rounded-circle" src="{{ favoris.post.author.profilemodel.image.url }}" alt="photo" style="width: 90px; height: 100px; object-fit: cover;">
+                                <div class="ml-3">
+                                    <h5>{{ favoris.post.author.first_name }} {{ favoris.post.author.last_name }}</h5>
+                                    <small class="text-muted">{{ favoris.post.date_created }}</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="text-justify">La maison se trouve à <strong>{{ favoris.post.location }}</strong></p>
+                            <p class="text-justify">Elle possède <strong>{{ favoris.post.chambres }}</strong> chambres</p>
+                            <p class="text-justify">Contactez-moi sur : {{ favoris.post.telephone }}</p>
+                            <p class="text-justify">Statut de la maison : <h5 style="color: green;">{{ favoris.post.statut }}</h5></p>
+                            <p class="text-justify">Prix de la maison : <strong>{{ favoris.post.prix_en_fbu }}</strong> fbu</p>
+                            <p class="text-justify">{{ favoris.post.description }}</p>
+                            <a href="{% url 'favoris_toggle' favoris.post.id %}" class="btn btn-light">
+                                <i class="fas fa-star text-warning"></i> Retirer des favoris
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Aucune favori trouvé.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style>
+    .shadow-custom {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 1); /* Ombre plus prononcée */
+    }
+</style>
+{% endblock %}

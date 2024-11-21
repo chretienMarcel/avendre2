@@ -3,22 +3,34 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 from .models import Post
 
-
-
 class PostForm(forms.ModelForm):
- description = forms.CharField(
+    description = forms.CharField(
         label=("description"),
         max_length=150,
-        help_text=("dites si la maison est a louer ou a acheter et fixer le prix"),
+        help_text=("Dites si la maison est à louer ou à acheter et fixez le prix."),
     )
- location = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 37}))
- chambres=forms.IntegerField()
- telephone=forms.IntegerField()
- prix_en_fbu=forms.IntegerField()
+    location = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 37}))
+    chambres = forms.IntegerField()
+    telephone = forms.CharField(
+        max_length=12,
+        help_text=("Veuillez entrer un numéro de téléphone (maximum 12 caractères)."),
+        error_messages={'max_length': 'Le numéro de téléphone ne peut pas dépasser 12 caractères.'}
+    )
+    prix_en_fbu = forms.IntegerField()
+    
+    # Ajout du champ statut
+    statut = forms.ChoiceField(
+        choices=[
+            ('à louer', 'À louer'),
+            ('à vendre', 'À vendre')
+        ],
+        label="Statut",
+        help_text="Sélectionnez si le bien est à louer ou à vendre."
+    )
 
- class Meta:
+    class Meta:
         model = Post  # Cela doit être un modèle
-        fields = ('location','chambres','telephone', 'image1', 'image2', 'image3', 'image4', 'image5','description','prix_en_fbu')
+        fields = ('location', 'chambres', 'telephone', 'image1', 'image2', 'image3', 'image4', 'image5', 'description', 'prix_en_fbu', 'statut')
 
 class PostUpdateForm(forms.ModelForm):
     class Meta:

@@ -11,9 +11,13 @@ def accueil(request):
     return render(request, 'blog/accueil.html')
 @login_required
 def index(request):
-     # Récupérer tous les posts
-    posts = Post.objects.all()
-    return render(request, 'blog/index.html',{'posts': posts})
+    posts = Post.objects.all()  # Récupérer tous les posts
+    favoris_ids = Favoris.objects.filter(user=request.user).values_list('post_id', flat=True)  # Récupérer les IDs des favoris
+
+    return render(request, 'blog/index.html', {
+        'posts': posts,
+        'favoris_ids': favoris_ids,  # Passer les IDs des favoris au template
+    })
 from django.shortcuts import render
 from .forms import PostForm  # Assurez-vous d'importer votre formulaire
 
@@ -41,6 +45,9 @@ def delete_post(request, post_id):
         return redirect('users-profile')  # Redirigez vers la page de profil
 from django.shortcuts import render
 from .models import Post
+from django.shortcuts import render
+from django.db.models import Q  # Importer Q pour les requêtes complexes
+from .models import Post
 
 def recherche(request):
     # Récupérer le paramètre de recherche
@@ -48,7 +55,25 @@ def recherche(request):
     posts = []  # Initialiser une liste vide pour les posts
 
     if query:  # Vérifier si une requête a été faite
-        posts = Post.objects.filter(location__icontains=query)  # Chercher dans la base de données
+        # Essayer de convertir les chambres et le prix en entier
+        try:
+            chambres_query = int(query)
+        except ValueError:
+            chambres_query = None  # Si la conversion échoue
+
+        try:
+            prix_query = int(query)
+        except ValueError:
+            prix_query = None
+
+        # Construire la requête avec Q
+        filters = Q(location__icontains=query) | \
+                  Q(description__icontains=query) | \
+                  (Q(chambres=chambres_query) if chambres_query is not None else Q()) | \
+                  (Q(prix_en_fbu=prix_query) if prix_query is not None else Q()) | \
+                  Q(author__username__icontains=query)
+
+        posts = Post.objects.filter(filters).distinct()  # Appliquer les filtres et éviter les doublons
 
     context = {
         'posts': posts,
@@ -57,8 +82,6 @@ def recherche(request):
     }
     
     return render(request, 'blog/index.html', context)
-     # Passez le formulaire au template
-
 def post_edit(request,pk):
    post=Post.objects.get(id=pk)
    if request.method == 'POST':
@@ -114,7 +137,7 @@ def suggestions(request):
     })
 # blog/views.py
 from django.shortcuts import get_object_or_404, redirect
-from .models import Suggestion
+from .models import Suggestion,Favoris
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -122,3 +145,20 @@ def delete_suggestion(request, suggestion_id):
     suggestion = get_object_or_404(Suggestion, id=suggestion_id, user=request.user)
     suggestion.delete()
     return redirect('suggestions')  # Redirigez vers la page des suggestions
+from django.shortcuts import get_object_or_404, render, redirect
+from .models import Post, Favoris
+
+def toggle_favoris(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    favoris, created = Favoris.objects.get_or_create(user=request.user, post=post)
+
+    if not created:  # Si le favori existait déjà, on le supprime
+        favoris.delete()
+
+    return redirect('blog-index') 
+def favoris(request):
+    favoris = Favoris.objects.filter(user=request.user).select_related('post')  # Récupérer les favoris de l'utilisateur
+
+    return render(request, 'blog/favoris.html', {
+        'favoris': favoris,  # Passer les favoris au template
+    })

@@ -26,9 +26,14 @@
                         <p class="text-justify">la maison se trouve à <strong>{{ post.location }}</strong></p>
                         <p class="text-justify">elle possède <strong>{{ post.chambres }}</strong> chambres</p>
                         <p class="text-justify">Contactez moi sur: {{ post.telephone }}</p>
+                        <p class="text-justify">statut de la maison <h5 style="color: green;"> {{ post.statut}}</h5> </p>
                         <p class="text-justify">prix de la maison: <strong>{{ post.prix_en_fbu }}</strong> fbu</p>
                         <p class="text-justify"> {{ post.description }}</p>
-
+                         <!-- Bouton Ajouter aux Favoris -->
+                         <a href="{% url 'favoris_toggle' post.id %}" class="btn btn-light">
+                            <i class="fas fa-star {% if post.id in favoris_ids %}text-warning{% else %}text-muted{% endif %}"></i>
+                            Ajouter aux favoris
+                        </a>
                         <div id="imageCarousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel" data-interval="2000">
                             <div class="carousel-inner">
                                 {% if post.image1 %}
