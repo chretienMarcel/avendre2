@@ -23,14 +23,17 @@
                             </div>
                         </div>
                         <hr>
-                        <p class="text-justify">la maison se trouve à <strong>{{ post.location }}</strong></p>
-                        <p class="text-justify">elle possède <strong>{{ post.chambres }}</strong> chambres</p>
-                        <p class="text-justify">Contactez moi sur: {{ post.telephone }}</p>
-                        <p class="text-justify">statut de la maison <h5 style="color: green;"> {{ post.statut}}</h5> </p>
-                        <p class="text-justify">prix de la maison: <strong>{{ post.prix_en_fbu }}</strong> fbu</p>
-                        <p class="text-justify"> {{ post.description }}</p>
+                        <div class="text-justify">
+                            <span>La maison se trouve à <strong>{{ post.location }}</strong>. </span>
+                            <span>Elle possède <strong>{{ post.chambres }}</strong> chambres. </span>
+                            <span>{{ post.description }}</span>
+                            <span>Contactez-moi sur : {{ post.telephone }}. </span>
+                            <span>Statut de la maison : <strong style="color: green;">{{ post.statut }}</strong>. </span>
+                            <span>Prix de la maison : <strong>{{ post.prix_en_fbu }}</strong> FBU. </span>
+                            
+                        </div>
                          <!-- Bouton Ajouter aux Favoris -->
-                         <a href="{% url 'favoris_toggle' post.id %}" class="btn btn-light">
+                         <a href="{% url 'favoris_toggle' post.id %}" class="btn btn-info">
                             <i class="fas fa-star {% if post.id in favoris_ids %}text-warning{% else %}text-muted{% endif %}"></i>
                             Ajouter aux favoris
                         </a>
@@ -120,6 +123,15 @@
 {% endblock %}
 
 <style>
+    .text-justify {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Ajustez l'espacement entre les phrases */
+}
+
+.text-justify span {
+    margin: 0; /* Pas de marges pour éviter les espaces supplémentaires */
+}
     .card {
         border: 1px solid #e4e6eb;
         border-radius: 8px;
