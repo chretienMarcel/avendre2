@@ -22,7 +22,7 @@
                             <p class="text-justify">Statut de la maison : <h5 style="color: green;">{{ favoris.post.statut }}</h5></p>
                             <p class="text-justify">Prix de la maison : <strong>{{ favoris.post.prix_en_fbu }}</strong> fbu</p>
                             <p class="text-justify">{{ favoris.post.description }}</p>
-                            <a href="{% url 'favoris_toggle' favoris.post.id %}" class="btn btn-light">
+                            <a href="{% url 'favoris_toggle' favoris.post.id %}" class="btn btn-danger">
                                 <i class="fas fa-star text-warning"></i> Retirer des favoris
                             </a>
                         </div>
