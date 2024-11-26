@@ -4,23 +4,23 @@ from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 statut = (
-    ("à louer", "à louer"),
-    ("à vendre", "à vendre")
+    ("Maison", "Maison"),
+    ("Appartement", "Appartement")
 )
 
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     location = models.CharField(max_length=500, null=False, blank=False)
     description = models.CharField(max_length=500, null=False, blank=False)
-    statut = models.CharField(max_length=20, choices=statut, default="à louer")
+    statut = models.CharField(max_length=20, choices=statut, default="Maison")
     chambres = models.IntegerField(null=False, blank=False)
     telephone = models.CharField(null=False, blank=False, max_length=12)  # Utilisez CharField pour les numéros de téléphone
     prix_en_fbu = models.IntegerField(null=False, blank=False, default=0)
-    image1 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
-    image2 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
-    image3 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
-    image4 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
-    image5 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])])
+    image1 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],null=False,blank=False)
+    image2 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],null=False,blank=False)
+    image3 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],null=False,blank=False)
+    image4 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],null=False,blank=False)
+    image5 = models.ImageField(default='default.png', upload_to='post', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])],null=False,blank=False)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now=True)

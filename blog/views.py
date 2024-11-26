@@ -107,7 +107,7 @@ def post_delete(request,pk):
    context = {
       'post':post
    }
-   return render(request,'blog/post_delete.html',context)
+   return render(request,'users/profile.html',context)
 
 # blog/views.py
 from django.shortcuts import render

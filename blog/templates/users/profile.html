@@ -90,11 +90,15 @@
                     </div>
                 </div>
                 <hr>
-                <p class="text-justify">la maison se trouve à <strong>{{ post.location }}</strong></p>
-                <p class="text-justify">elle possède <strong>{{ post.chambres }}</strong> chambres</p>
-                <p class="text-justify">Contactez moi sur: {{ post.telephone }}</p>
-                <p class="text-justify">prix de la maison: <strong>{{ post.prix_en_fbu }}</strong> fbu</p>
-                <p class="text-justify"> {{ post.description }}</p>
+                <div class="text-justify">
+                    <span>La maison se trouve à <strong>{{ post.location }}</strong>. </span>
+                    <span>Elle possède <strong>{{ post.chambres }}</strong> chambres. </span>
+                    <span>{{ post.description }}</span>
+                    <span>Contactez-moi sur : {{ post.telephone }}. </span>
+                    <span>Statut de la maison : <strong style="color: green;">{{ post.statut }}</strong>. </span>
+                    <span>Prix de la maison : <strong>{{ post.prix_en_fbu }}</strong> FBU. </span>
+                    
+                </div>
 
                 <div id="imageCarousel{{ forloop.counter }}" class="carousel slide" data-ride="carousel" data-interval="2000">
                     <div class="carousel-inner">
@@ -135,9 +139,10 @@
                 </div>
                 
 
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ post.id }}">
-                    Supprimer
-                </button>
+                <form method="post" action="{% url 'delete' post.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                </form>
                 <div class="modal fade" id="deleteModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ forloop.counter }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
