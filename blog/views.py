@@ -49,6 +49,9 @@ from django.shortcuts import render
 from django.db.models import Q  # Importer Q pour les requêtes complexes
 from .models import Post
 
+from django.db.models import Q
+from .models import Post  # Assurez-vous d'importer votre modèle Post
+
 def recherche(request):
     # Récupérer le paramètre de recherche
     query = request.GET.get('item-name', '')  # Assurez-vous que le nom corresponde à celui de votre formulaire
@@ -71,7 +74,8 @@ def recherche(request):
                   Q(description__icontains=query) | \
                   (Q(chambres=chambres_query) if chambres_query is not None else Q()) | \
                   (Q(prix_en_fbu=prix_query) if prix_query is not None else Q()) | \
-                  Q(author__username__icontains=query)
+                  Q(author__username__icontains=query) | \
+                  Q(statut__icontains=query)  # Vérifiez dans le champ statut
 
         posts = Post.objects.filter(filters).distinct()  # Appliquer les filtres et éviter les doublons
 
